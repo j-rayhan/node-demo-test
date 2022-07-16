@@ -1,0 +1,14 @@
+{
+  "data": [
+    {
+      "date": "2016-01-05",
+      "user_id": 1,
+      "user_type": "natural",
+      "type": "cash_out",
+      "operation": {
+        "amount": 20000.00,
+        "currency": "EUR"
+      }
+    }
+  ]
+}
