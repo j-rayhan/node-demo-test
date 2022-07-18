@@ -37,7 +37,7 @@ const commissionFees = async () => {
           operation: { amount }
         } = item;
         const fees = getCashInFees(amount, cashInPercents);
-        // console.log('PRINT IN %s=====>', 'cash in fees START ***', fees);
+        console.log('PRINT IN %s===========>', 'cash in fees START ***', fees);
       }
       return null;
     });
@@ -63,7 +63,7 @@ const commissionFees = async () => {
       return null;
     });
     // console.log('PRINT IN %s=====>', 'cashOutList naturalList ***', naturalList);
-    console.log('PRINT IN %s=====>', 'cashOutList jurdicalList ***', jurdicalList);
+    // console.log('PRINT IN %s=====>', 'cashOutList jurdicalList ***', juridicalList);
 
     // const filterData = sortData
     //   .filter((item) => {
