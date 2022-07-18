@@ -12,33 +12,32 @@ const item = {
 };
 
 describe('Input data(Commission Fees) tests', () => {
+  // defour
   test('All fields is required', () => {
-    // arrange and act
     const result = isValidObject({});
     const message = Object.values(result);
-    // message.every('is required')
-    // console.log(
-    //   'result--->',
-    //   message.every((e) => e === 'is required')
-    // );
-    // assert
     expect(message.every((e) => e === 'is required')).toBeTruthy();
   });
 
-  test('Subtraction of 2 numbers', () => {
-    // arrange and act
-    const result = 8;
-
+  test('20222-23-23 Invalid date format', () => {
+    // valid date format Y-M-D
+    let _item = {...item, date: '20222-23-23'};
+    const result = isValidObject(_item)
     // assert
-    expect(result).toBe(8);
+    expect(result.date).toBe("invalid date format, must be Y-m-d");
   });
 
-  test('Multiplication of 2 numbers', () => {
-    // arrange and act
-    const result = 16;
-
-    // assert
-    expect(result).toBe(16);
+  test('User type, should be one of “natural”(natural person) or “juridical”(legal person)', () => {
+    let result = isValidObject(item);
+    expect(result).toStrictEqual({});
+    let _item = {...item, user_type: 'juridical'};
+    result = isValidObject(_item);
+    // console.log('sdfad----->', result)
+    expect(result).toStrictEqual({});
+    // Invalid user type
+    _item = {...item, user_type: 'ajuridical'};
+    result = isValidObject(_item);
+    expect(result.user_type).toBe("invalid user type, must be one of natural, juridical");
   });
 
   test('Division of 2 numbers', () => {

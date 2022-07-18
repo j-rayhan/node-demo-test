@@ -47,7 +47,7 @@ const isValidUserType = (userType) => {
     return 'is required';
   }
   if (!['natural', 'juridical'].includes(userType)) {
-    return 'invalid user type, must be one of natural, juridical ';
+    return 'invalid user type, must be one of natural, juridical';
   }
   return '';
 };
