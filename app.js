@@ -1,6 +1,7 @@
 const fetch = require('node-fetch');
 const moment = require('moment');
 const {
+  SERVER_URL,
   getData,
   isObjEmpty,
   isValidObject,
@@ -8,23 +9,6 @@ const {
   getCashInFees,
   getCashOutFeesJuridical
 } = require('./utils');
-
-const SERVER_URL = 'http://private-38e18c-uzduotis.apiary-mock.com/config/';
-
-const getCashOutFees = (cashOutAmount, data) => {
-  // Get cash in percents, and max percents amount from api
-  const {
-    percents,
-    week_limit: { amount }
-  } = data;
-  // const fees = new Fees(cashOutAmount, percents, amount, false);
-  // return fees.getPercent();
-  let fees = 0.0;
-  const currentFees = parseFloat((cashOutAmount * percents) / 100).toFixed(2);
-  if (currentFees > amount) fees = amount.toFixed(2);
-  else fees = currentFees;
-  return fees;
-};
 
 const commissionFees = async () => {
   try {
@@ -35,7 +19,7 @@ const commissionFees = async () => {
     );
     const cashInPercents = await fetch(`${SERVER_URL}cash-in`).then((res) => res.json());
 
-    // Sort data by date ascendingly
+    // Sort data by date ascending
     const sortData = data.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
     // Data group by cash type (cash_in and cash_out)
@@ -60,13 +44,13 @@ const commissionFees = async () => {
     // console.log('PRINT IN %s=====>', 'cashInList START ***', cashInList);
 
     // Cash Out Data group by user type (cash_in and juridical)
-    const cashOutrouped = groupBy(cashOutList, (fees) => fees.user_type);
+    const cashOutGrouped = groupBy(cashOutList, (fees) => fees.user_type);
 
-    const naturalList = cashOutrouped.get('natural');
-    const jurdicalList = cashOutrouped.get('juridical');
+    const naturalList = cashOutGrouped.get('natural');
+    const juridicalList = cashOutGrouped.get('juridical');
 
     // Calculate Cash Out Fees for Legal persons(juridical)
-    jurdicalList.map((item) => {
+    juridicalList.map((item) => {
       const errors = isValidObject(item);
       if (isObjEmpty(errors)) {
         // Calculate Cash out Commission Fees

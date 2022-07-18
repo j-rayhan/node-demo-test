@@ -146,8 +146,7 @@ const getCashInFees = (cashInAmount, data) => {
     percents,
     max: { amount }
   } = data;
-  // const fees = new Fees(cashInAmount, percents, amount, false);
-  // return fees.getPercent();
+
   let fees = 0.0;
   const currentFees = parseFloat((cashInAmount * percents) / 100);
   if (currentFees > amount) fees = amount;
@@ -167,7 +166,25 @@ const getCashOutFeesJuridical = (cashOutAmount, data) => {
   return roundUp(fees);
 };
 
+const getCashOutFees = (cashOutAmount, data) => {
+  // Get cash in percents, and max percents amount from api
+  const {
+    percents,
+    week_limit: { amount }
+  } = data;
+  // const fees = new Fees(cashOutAmount, percents, amount, false);
+  // return fees.getPercent();
+  let fees = 0.0;
+  const currentFees = parseFloat((cashOutAmount * percents) / 100).toFixed(2);
+  if (currentFees > amount) fees = amount.toFixed(2);
+  else fees = currentFees;
+  return fees;
+};
+
+const SERVER_URL = 'http://private-38e18c-uzduotis.apiary-mock.com/config/';
+
 module.exports = {
+  SERVER_URL,
   getData,
   roundUp,
   groupBy,
